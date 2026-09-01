@@ -441,18 +441,19 @@
       <div class="meta">Alejandro · Argentina</div>
     </div>
     <div class="testimonios-cta">
-      <a class="btn-outline cta" href="mentoria.html">Más testimonios</a>
+      <a class="btn-primary cta" href="mentoria.html">Más Testimonios</a>
     </div>
   </div>
 </section>
 
 <style>
-  .testimonios-row{display:flex;align-items:center;gap:32px;flex-wrap:wrap;}
-  .testimonio-col{flex:0 0 220px;}
-  .testimonio-video{position:relative;padding-bottom:177.77%;height:0;overflow:hidden;border-radius:12px;max-width:220px;margin:0 auto;}
+  .testimonios-row{display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;}
+  .testimonio-col{width:220px;flex:0 0 auto;}
+  .testimonio-video{position:relative;width:220px;aspect-ratio:9/16;border-radius:12px;overflow:hidden;}
   .testimonio-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;}
+  .testimonio-col .meta{margin-top:16px;font-size:1.05rem;font-weight:500;}
   .testimonios-cta{flex:1 1 auto;text-align:center;}
-  @media (max-width:768px){.testimonios-row{flex-direction:column;} .testimonios-cta{width:100%;}}
+  @media (max-width:768px){.testimonios-row{flex-direction:column;align-items:center;} .testimonio-col{width:220px;} .testimonios-cta{width:100%;}}
 </style>
 
   <!-- LO QUE VAS A CONSEGUIR -->
