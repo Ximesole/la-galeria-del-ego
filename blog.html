@@ -316,8 +316,9 @@
   .filter-tab.active{ background:var(--magenta); border-color:var(--magenta); color:#fff; }
 
   .blog-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:34px; }
-  .load-more-wrap{ display:flex; justify-content:center; margin:48px 0 8px; }
+  .load-more-wrap{ display:flex; justify-content:center; align-items:center; gap:18px; margin:48px 0 8px; }
   .load-more-wrap.is-hidden{ display:none; }
+  .load-more-wrap .btn-prev.is-hidden{ display:none; }
   .blog-card{
     display:flex; flex-direction:column; border:1px solid var(--line); background:var(--cream);
     overflow:hidden; transition:transform .25s ease, box-shadow .25s ease;
@@ -841,6 +842,7 @@
       </a>
     </div>
     <div class="load-more-wrap">
+      <button class="btn-outline btn-prev" id="prevBtn">← Volver</button>
       <button class="btn-primary" id="loadMoreBtn">Ver más</button>
     </div>
   </section>
@@ -902,16 +904,69 @@
 
 <script>
   (function(){
-    var PAGE_SIZE = 12;
+    function getPageSize(){
+      return window.matchMedia('(max-width:980px)').matches ? 6 : 12;
+    }
+
+    function smoothScrollTo(targetY, duration){
+      var startY = window.pageYOffset;
+      var distance = targetY - startY;
+      var startTime = null;
+      function ease(t){ return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2; }
+      function step(timestamp){
+        if(startTime === null){ startTime = timestamp; }
+        var elapsed = timestamp - startTime;
+        var progress = Math.min(elapsed / duration, 1);
+        window.scrollTo(0, startY + distance * ease(progress));
+        if(progress < 1){ requestAnimationFrame(step); }
+      }
+      requestAnimationFrame(step);
+    }
+
+    var PAGE_SIZE = getPageSize();
     var tabs = document.querySelectorAll('.filter-tab');
+    var validFilters = Array.prototype.map.call(tabs, function(t){ return t.getAttribute('data-filter'); });
     var cards = Array.prototype.slice.call(document.querySelectorAll('.blog-card'));
     var loadMoreBtn = document.getElementById('loadMoreBtn');
+    var prevBtn = document.getElementById('prevBtn');
     var loadMoreWrap = loadMoreBtn ? loadMoreBtn.parentElement : null;
-    var listado = document.getElementById('listado');
+    var filterTabs = document.querySelector('.filter-tabs');
+    var header = document.querySelector('header');
     var currentFilter = 'todo';
     var currentPage = 1;
 
-    function render(scrollUp){
+    function readStateFromLocation(){
+      var params = new URLSearchParams(location.search);
+      var filter = params.get('sala') || 'todo';
+      if(validFilters.indexOf(filter) === -1){ filter = 'todo'; }
+      var page = parseInt(params.get('pagina'), 10);
+      if(!page || page < 1){ page = 1; }
+      return { filter: filter, page: page };
+    }
+
+    function urlForState(filter, page){
+      var params = new URLSearchParams();
+      if(filter !== 'todo'){ params.set('sala', filter); }
+      if(page > 1){ params.set('pagina', String(page)); }
+      var qs = params.toString();
+      return location.pathname + (qs ? ('?' + qs) : '');
+    }
+
+    function syncActiveTab(){
+      tabs.forEach(function(t){
+        t.classList.toggle('active', t.getAttribute('data-filter') === currentFilter);
+      });
+    }
+
+    function goToState(filter, page, scroll){
+      currentFilter = filter;
+      currentPage = page;
+      syncActiveTab();
+      history.pushState({ filter: filter, page: page }, '', urlForState(filter, page));
+      render(scroll);
+    }
+
+    function render(scrollToTabs){
       var matching = cards.filter(function(card){
         return currentFilter === 'todo' || card.getAttribute('data-category') === currentFilter;
       });
@@ -925,26 +980,56 @@
       });
       var totalPages = Math.max(1, Math.ceil(matching.length / PAGE_SIZE));
       if(loadMoreWrap){
-        loadMoreWrap.classList.toggle('is-hidden', currentPage >= totalPages);
+        loadMoreWrap.classList.toggle('is-hidden', totalPages <= 1);
       }
-      if(scrollUp && listado){
-        listado.scrollIntoView({ behavior:'smooth', block:'start' });
+      if(loadMoreBtn){
+        loadMoreBtn.classList.toggle('is-hidden', currentPage >= totalPages);
+      }
+      if(prevBtn){
+        prevBtn.classList.toggle('is-hidden', currentPage <= 1);
+      }
+      if(scrollToTabs && filterTabs){
+        var headerOffset = header ? header.offsetHeight : 0;
+        var targetY = filterTabs.getBoundingClientRect().top + window.pageYOffset - headerOffset - 18;
+        smoothScrollTo(Math.max(targetY, 0), 650);
       }
     }
 
     tabs.forEach(function(tab){
       tab.addEventListener('click', function(){
-        tabs.forEach(function(t){ t.classList.remove('active'); });
-        tab.classList.add('active');
-        currentFilter = tab.getAttribute('data-filter');
-        currentPage = 1;
-        render(false);
+        var filter = tab.getAttribute('data-filter');
+        goToState(filter, 1, false);
       });
     });
 
     if(loadMoreBtn){
       loadMoreBtn.addEventListener('click', function(){
-        currentPage += 1;
+        goToState(currentFilter, currentPage + 1, true);
+      });
+    }
+
+    if(prevBtn){
+      prevBtn.addEventListener('click', function(){
+        goToState(currentFilter, Math.max(1, currentPage - 1), true);
+      });
+    }
+
+    window.addEventListener('popstate', function(){
+      var state = readStateFromLocation();
+      currentFilter = state.filter;
+      currentPage = state.page;
+      syncActiveTab();
+      render(true);
+    });
+
+    var initial = readStateFromLocation();
+    currentFilter = initial.filter;
+    currentPage = initial.page;
+    syncActiveTab();
+    history.replaceState({ filter: currentFilter, page: currentPage }, '', urlForState(currentFilter, currentPage));
+    render(false);
+  })();
+</script>
         render(true);
       });
     }
