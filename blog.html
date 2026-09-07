@@ -91,7 +91,9 @@
     font-family:'Jost', sans-serif; font-size:14px; letter-spacing:.02em; font-weight:500;
     transition:background .2s ease, transform .2s ease; display:inline-block; border:none; cursor:pointer;
   }
-  .btn-primary:hover{ background:var(--magenta-dark); transform:translateY(-1px); }
+  @media (hover:hover) and (pointer:fine){
+    .btn-primary:hover{ background:var(--magenta-dark); transform:translateY(-1px); }
+  }
   .btn-outline{
     border:1px solid var(--ink); color:var(--ink); padding:12px 25px; border-radius:2px;
     font-size:16px; font-weight:700; letter-spacing:.02em; display:inline-block; transition:all .2s ease;
