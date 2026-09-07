@@ -841,7 +841,7 @@
       </a>
     </div>
     <div class="load-more-wrap">
-      <button class="btn-outline" id="loadMoreBtn">Ver más</button>
+      <button class="btn-primary" id="loadMoreBtn">Ver más</button>
     </div>
   </section>
 
@@ -907,21 +907,28 @@
     var cards = Array.prototype.slice.call(document.querySelectorAll('.blog-card'));
     var loadMoreBtn = document.getElementById('loadMoreBtn');
     var loadMoreWrap = loadMoreBtn ? loadMoreBtn.parentElement : null;
+    var listado = document.getElementById('listado');
     var currentFilter = 'todo';
-    var visibleCount = PAGE_SIZE;
+    var currentPage = 1;
 
-    function render(){
+    function render(scrollUp){
       var matching = cards.filter(function(card){
         return currentFilter === 'todo' || card.getAttribute('data-category') === currentFilter;
       });
+      var start = (currentPage - 1) * PAGE_SIZE;
+      var end = start + PAGE_SIZE;
       matching.forEach(function(card, i){
-        card.style.display = (i < visibleCount) ? '' : 'none';
+        card.style.display = (i >= start && i < end) ? '' : 'none';
       });
       cards.forEach(function(card){
         if(matching.indexOf(card) === -1){ card.style.display = 'none'; }
       });
+      var totalPages = Math.max(1, Math.ceil(matching.length / PAGE_SIZE));
       if(loadMoreWrap){
-        loadMoreWrap.classList.toggle('is-hidden', visibleCount >= matching.length);
+        loadMoreWrap.classList.toggle('is-hidden', currentPage >= totalPages);
+      }
+      if(scrollUp && listado){
+        listado.scrollIntoView({ behavior:'smooth', block:'start' });
       }
     }
 
@@ -930,19 +937,19 @@
         tabs.forEach(function(t){ t.classList.remove('active'); });
         tab.classList.add('active');
         currentFilter = tab.getAttribute('data-filter');
-        visibleCount = PAGE_SIZE;
-        render();
+        currentPage = 1;
+        render(false);
       });
     });
 
     if(loadMoreBtn){
       loadMoreBtn.addEventListener('click', function(){
-        visibleCount += PAGE_SIZE;
-        render();
+        currentPage += 1;
+        render(true);
       });
     }
 
-    render();
+    render(false);
   })();
 </script>
 
