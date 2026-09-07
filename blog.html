@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — La Galería del Ego</title>
+<meta name="description" content="Columnas de Ximena Burgos sobre fenómenos sociales, cultura, arte y política, para entender cómo nos hablamos por dentro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#ffffff;
+    --cream-2:#f7f6f3;
+    --ink:#1c1a17;
+    --ink-soft:#433d36;
+    --label:#9c9186;
+    --line:#e6e2d9;
+    --magenta:#2B5DF5;
+    --magenta-dark:#1a46c9;
+    --plum-1:#0d0c0b;
+    --plum-2:#1f1d1a;
+    --plum-3:#2b2723;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Jost', sans-serif;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--magenta);
+    font-weight:700;
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+  }
+  .eyebrow::before{ content:""; width:22px; height:1px; background:var(--magenta); display:inline-block; }
+
+  h1,h2,h3{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
+    color:var(--ink);
+    line-height:1.08;
+  }
+  .script{ font-style:italic; color:var(--magenta); font-weight:500; }
+
+  /* ---------- artwork / plaque motif ---------- */
+  .artwork{
+    position:relative;
+    background:linear-gradient(155deg, var(--plum-1) 0%, var(--plum-2) 55%, var(--plum-3) 115%);
+    overflow:hidden;
+  }
+  .artwork::before{ content:""; position:absolute; inset:0; background:radial-gradient(ellipse at 30% 20%, rgba(255,255,255,.08), transparent 55%); pointer-events:none; }
+  .artwork img{ width:100%; height:100%; object-fit:cover; display:block; position:relative; z-index:0; }
+  .plaque{
+    position:absolute; left:0; right:0; bottom:0;
+    display:flex; align-items:center; gap:10px;
+    padding:16px 22px;
+    background:linear-gradient(0deg, rgba(0,0,0,.55), transparent);
+    color:#f2e6e9; font-size:12px; letter-spacing:.18em; text-transform:uppercase; font-weight:500;
+  }
+  .plaque .diamond{ color:var(--magenta); font-size:10px; }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 64px;
+    background:rgba(234,240,254,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{ font-family:'Cormorant Garamond', serif; font-size:30px; font-weight:700; color:var(--ink); }
+  .logo span{ color:var(--ink); font-style:normal; }
+  nav{ display:flex; align-items:center; gap:44px; }
+  nav a.nav-link{ font-size:15px; color:var(--ink-soft); position:relative; padding-bottom:3px; }
+  nav a.nav-link::after{ content:""; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--magenta); transition:width .25s ease; }
+  nav a.nav-link:hover::after{ width:100%; }
+  .btn-primary{
+    background:var(--magenta); color:#fff; padding:13px 26px; border-radius:2px;
+    font-family:'Jost', sans-serif; font-size:14px; letter-spacing:.02em; font-weight:500;
+    transition:background .2s ease, transform .2s ease; display:inline-block; border:none; cursor:pointer;
+  }
+  .btn-primary:hover{ background:var(--magenta-dark); transform:translateY(-1px); }
+  .btn-outline{
+    border:1px solid var(--ink); color:var(--ink); padding:12px 25px; border-radius:2px;
+    font-size:16px; font-weight:700; letter-spacing:.02em; display:inline-block; transition:all .2s ease;
+  }
+  .btn-outline:hover{ background:var(--ink); color:var(--cream); }
+  .btn-outline.on-dark{ border-color:rgba(255,255,255,.6); color:#ffffff; font-weight:600; }
+  .btn-outline.on-dark:hover{ background:#ffffff; color:var(--plum-1); }
+
+  /* ---------- mobile menu ---------- */
+  .menu-toggle{
+    display:none; flex-direction:column; justify-content:center; gap:5px;
+    width:38px; height:38px; background:none; border:none; cursor:pointer; padding:0;
+  }
+  .menu-toggle span{ display:block; width:100%; height:2px; background:var(--ink); transition:transform .25s ease, opacity .25s ease; }
+  .menu-toggle.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2){ opacity:0; }
+  .menu-toggle.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+  .mobile-menu{
+    display:none; flex-direction:column; gap:0;
+    position:sticky; top:74px; z-index:49;
+    background:rgba(234,240,254,.98); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    max-height:0; overflow:hidden; transition:max-height .3s ease;
+  }
+  .mobile-menu.open{ max-height:400px; }
+  .mobile-menu .nav-link{ padding:16px 24px; border-top:1px solid var(--line); font-size:16px; }
+  .mobile-menu .btn-primary{ margin:16px 24px 20px; text-align:center; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    display:grid; grid-template-columns:1fr; gap:36px; align-items:center;
+    justify-items:center; text-align:center;
+    padding:56px 64px 48px; max-width:820px; margin:0 auto;
+  }
+  .hero > div:first-child{ order:2; display:flex; flex-direction:column; align-items:center; }
+  .hero .hero-art{ order:1; width:100%; max-width:380px; margin:0 auto; }
+  .hero h1{ font-size:44px; margin-top:22px; }
+  .hero h1 + h1{ margin-top:2px; }
+  .heart-brain-img{ display:block; margin:30px auto; width:100%; max-width:120px; opacity:.92; }
+  .hero p.lede{ font-size:20px; color:var(--ink); max-width:600px; margin-top:22px; line-height:1.65; font-weight:400; }
+  .hero-power{
+    margin:32px auto 0;
+    padding:26px 30px;
+    border-left:3px solid var(--magenta);
+    background:rgba(43,93,245,.06);
+    max-width:520px;
+  }
+  .hero-power p{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:26px;
+    line-height:1.4;
+    color:var(--ink);
+  }
+  .authority{ margin-top:26px; font-size:14px; color:var(--label); letter-spacing:.02em; }
+  .authority strong{ color:var(--ink-soft); font-weight:500; }
+  .hero .cta-row{ margin-top:34px; display:flex; gap:18px; align-items:center; }
+  .hero-art{ aspect-ratio:4/5; }
+
+  /* ---------- section shell ---------- */
+  section{ padding:64px 64px; max-width:1440px; margin:0 auto; }
+  .section-head{ max-width:680px; margin-bottom:56px; }
+  .section-head .eyebrow{ margin-bottom:16px; }
+  .section-head h2{ font-size:42px; }
+  .section-head p{ margin-top:18px; color:var(--ink-soft); font-size:17px; line-height:1.65; }
+  .center{ text-align:center; margin-left:auto; margin-right:auto; }
+
+  /* ---------- sendero: 3 cards ---------- */
+  .sendero-head{ text-align:center; max-width:720px; margin:0 auto 56px; }
+  .sendero-head .eyebrow{ margin-bottom:18px; }
+  .sendero-head h2{ font-size:44px; }
+  .sendero-head .subline{ margin-top:20px; font-size:17px; color:var(--ink-soft); }
+  .piezas{ display:grid; grid-template-columns:repeat(3,1fr); gap:30px; align-items:stretch; }
+  .pieza{
+    border:1px solid var(--line); background:var(--cream-2); padding:44px 38px;
+    display:flex; flex-direction:column; transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .pieza:hover{ transform:translateY(-6px); box-shadow:0 20px 40px -20px rgba(36,16,25,.25); }
+  .pieza.dark{ background:#eaf0fe; border-color:var(--line); color:var(--ink); }
+  .pieza .tag{ font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--magenta); font-weight:600; }
+  .pieza .btn-primary{ text-transform:uppercase; letter-spacing:.16em; font-weight:600; font-size:13px; }
+  .pieza.dark .tag{ color:var(--magenta); font-weight:600; }
+  .pieza h3{ font-size:36px; margin-top:16px; font-weight:600; line-height:1.15; }
+  .pieza.dark h3{ color:var(--ink); }
+  .pieza p{ margin-top:16px; color:var(--ink); font-size:19px; line-height:1.7; flex-grow:1; text-align:justify; }
+  .pieza.dark p{ color:var(--ink); font-weight:400; }
+  .pieza .meta{ margin-top:20px; font-size:16px; color:var(--label); border-top:1px solid var(--line); padding-top:18px; font-weight:500; }
+  .pieza.dark .meta{ color:var(--magenta); border-top-color:var(--line); text-align:center; text-transform:uppercase; letter-spacing:.16em; font-size:13px; font-weight:600; }
+  .pieza .cta{ margin-top:22px; text-align:center; }
+  .pieza .cta.btn-outline{
+    display:inline-block; width:100%; text-align:center;
+    font-size:13px; letter-spacing:.16em; text-transform:uppercase; font-weight:700;
+    padding:15px 25px;
+  }
+  .pieza-cover{ margin:22px auto 0; max-width:220px; }
+  .pieza-cover img{ width:100%; height:auto; display:block; border-radius:2px; }
+
+  /* ---------- mi historia ---------- */
+  .historia{ display:grid; grid-template-columns:.85fr 1.15fr; gap:70px; align-items:center; }
+  .historia-art{ aspect-ratio:4/5; }
+  .historia p{ color:var(--ink-soft); font-size:17px; line-height:1.75; margin-top:22px; text-align:justify; }
+  .historia em{ color:var(--magenta); font-style:italic; }
+
+  /* ---------- beneficios ---------- */
+  .beneficios{ display:grid; grid-template-columns:1fr 1fr; gap:50px; }
+  .beneficio-col h3{ font-size:26px; }
+  .beneficio-col .tag{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--magenta); font-weight:500; }
+  .beneficio-col ul{ list-style:none; margin-top:22px; }
+  .beneficio-col li{ padding:14px 0; border-top:1px solid var(--line); color:var(--ink-soft); font-size:16px; display:flex; gap:14px; }
+  .beneficio-col li::before{ content:"◆"; color:var(--magenta); font-size:9px; margin-top:7px; }
+  .beneficio-col li:last-child{ border-bottom:1px solid var(--line); }
+
+  /* ---------- ciencia ---------- */
+  .ciencia{ display:grid; grid-template-columns:1.1fr .9fr; gap:70px; align-items:start; }
+  .ciencia h2{ font-size:38px; margin-top:14px; }
+  .ciencia p{ color:var(--ink-soft); font-size:17px; line-height:1.75; margin-top:22px; text-align:justify; }
+  .ciencia em{ color:var(--magenta); font-style:italic; }
+  .ciencia-art{ aspect-ratio:1/1; }
+
+  /* ---------- metodologia ---------- */
+  .metodologia{ max-width:800px; }
+  .metodologia p{ color:var(--ink); font-size:19px; line-height:1.8; margin-top:22px; font-family:'Cormorant Garamond', serif; font-weight:500; text-align:justify; }
+
+  /* ---------- newsletter ---------- */
+  .newsletter-section{ background:linear-gradient(180deg, #efece5, var(--cream)); }
+  .newsletter-box{
+    text-align:center; max-width:640px; margin:0 auto;
+  }
+  .newsletter-box h2{ font-size:40px; margin-top:16px; }
+  .newsletter-box p{ margin-top:16px; color:var(--ink-soft); font-size:17px; }
+  .newsletter-form{ margin-top:34px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .newsletter-form input{
+    padding:15px 20px; border:1px solid var(--line); background:#fff; min-width:280px;
+    font-family:'Jost'; font-size:15px; color:var(--ink); border-radius:2px;
+  }
+  .newsletter-form input::placeholder{ color:var(--ink-soft); opacity:1; }
+  .newsletter-form input:focus{ outline:2px solid var(--magenta); outline-offset:2px; }
+  /* MailerLite embed target: replace .newsletter-form with the embedded form code from MailerLite when ready */
+
+  /* ---------- puente ---------- */
+  .puente{ text-align:center; max-width:760px; margin:0 auto; }
+  .puente p{
+    font-family:'Cormorant Garamond', serif; font-style:italic; font-size:30px; line-height:1.5; color:var(--ink);
+  }
+  .puente p + p{ margin-top:24px; }
+  .puente .rule{ width:1px; height:56px; background:var(--magenta); margin:0 auto 30px; }
+
+  /* ---------- cta final ---------- */
+  .cta-section{
+    background:linear-gradient(155deg, var(--plum-1) 0%, var(--plum-2) 55%, var(--plum-3) 120%);
+    color:var(--cream); text-align:center; padding:80px 64px; position:relative; overflow:hidden; max-width:none;
+  }
+  .cta-section::before{ content:""; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.08), transparent 60%); }
+  .cta-section > *{ position:relative; }
+  .cta-section h2{ color:#fbf3f6; font-size:44px; max-width:760px; margin:0 auto; }
+  .cta-section .btn-primary{ margin-top:40px; }
+
+  /* ---------- footer ---------- */
+  footer.site-footer{ background:#eaf0fe; color:var(--ink-soft); }
+  .footer-inner{
+    max-width:1440px; margin:0 auto; padding:64px 64px 30px;
+    display:flex; justify-content:space-between; gap:60px; flex-wrap:wrap;
+  }
+  .footer-inner .logo{ color:var(--ink); }
+  .footer-inner .logo span{ color:var(--ink); }
+  .footer-col p{ color:var(--ink-soft); font-size:14px; max-width:280px; line-height:1.7; margin-top:14px; }
+  .footer-cols{ display:flex; gap:80px; }
+  .footer-col h4{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--magenta); margin-bottom:16px; font-weight:600; }
+  .footer-col a{ display:block; font-size:14px; color:var(--ink-soft); margin-bottom:10px; }
+  .footer-col a:hover{ color:var(--magenta); }
+  .fine{
+    text-align:center; font-size:12px; color:var(--label); padding:24px 24px 34px;
+    border-top:1px solid var(--line); max-width:1440px; margin:0 auto;
+  }
+
+  @media (max-width: 980px){
+    header{ padding:18px 24px; }
+    nav:not(.mobile-menu){ display:none; }
+    .menu-toggle{ display:flex; }
+    .mobile-menu{ display:flex; }
+    .hero{ grid-template-columns:1fr; padding:40px 24px 44px; gap:28px; }
+    .hero h1{ font-size:40px; }
+    section{ padding:44px 24px; }
+    .piezas, .historia, .beneficios, .ciencia{ grid-template-columns:1fr; }
+    .historia p, .ciencia p{ font-size:18.5px; }
+    .beneficio-col li{ font-size:17px; }
+    .metodologia p{ font-size:20px; }
+    .cta-section{ padding:56px 24px; }
+    .cta-section h2{ font-size:34px; }
+    .footer-inner{ flex-direction:column; padding:48px 24px 24px; }
+    .footer-cols{ gap:50px; flex-wrap:wrap; }
+    .newsletter-form{ flex-direction:column; align-items:center; }
+    .newsletter-form input{ width:100%; max-width:340px; }
+  }
+  .whatsapp-float{
+    position:fixed; bottom:28px; right:28px; z-index:60;
+    width:68px; height:68px; border-radius:50%;
+    background:#25D366;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 24px rgba(0,0,0,.25);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .whatsapp-float:hover{ transform:translateY(-3px) scale(1.05); box-shadow:0 12px 28px rgba(0,0,0,.3); }
+  .whatsapp-float svg{ width:38px; height:38px; }
+  @media (max-width: 980px){
+    .whatsapp-float{ bottom:20px; right:20px; width:58px; height:58px; }
+    .whatsapp-float svg{ width:32px; height:32px; }
+  }
+
+  /* ---------- blog listado ---------- */
+  .blog-hero{ text-align:center; max-width:760px; margin:0 auto; padding:56px 64px 8px; }
+  .blog-hero h1{ font-size:46px; margin-top:18px; }
+  .blog-hero p.lede{ margin-top:18px; font-size:18px; color:var(--ink-soft); line-height:1.65; }
+
+  .filter-tabs{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin:38px auto 0; max-width:760px; }
+  .filter-tab{
+    border:1px solid var(--line); background:var(--cream); color:var(--ink-soft);
+    padding:10px 22px; border-radius:999px; font-size:14px; font-family:'Jost',sans-serif;
+    cursor:pointer; transition:all .2s ease;
+  }
+  .filter-tab:hover{ border-color:var(--magenta); color:var(--magenta); }
+  .filter-tab.active{ background:var(--magenta); border-color:var(--magenta); color:#fff; }
+
+  .blog-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:34px; }
+  .load-more-wrap{ display:flex; justify-content:center; margin:48px 0 8px; }
+  .load-more-wrap.is-hidden{ display:none; }
+  .blog-card{
+    display:flex; flex-direction:column; border:1px solid var(--line); background:var(--cream);
+    overflow:hidden; transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .blog-card:hover{ transform:translateY(-6px); box-shadow:0 20px 40px -20px rgba(28,26,23,.18); }
+  .blog-card .cover{
+    aspect-ratio:16/10; overflow:hidden;
+    background:linear-gradient(155deg, var(--plum-1) 0%, var(--plum-2) 55%, var(--plum-3) 115%);
+  }
+  .blog-card .cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .blog-card .body{ padding:26px 26px 30px; display:flex; flex-direction:column; flex-grow:1; }
+  .blog-card .cat{ font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--magenta); font-weight:600; }
+  .blog-card h3{ font-size:25px; margin-top:12px; font-weight:600; line-height:1.2; }
+  .blog-card p{ margin-top:12px; color:var(--ink-soft); font-size:15.5px; line-height:1.6; flex-grow:1; }
+  .blog-card .meta{ margin-top:18px; font-size:13px; color:var(--label); }
+  .blog-card .read-more{ margin-top:14px; font-size:14px; font-weight:600; color:var(--magenta); display:inline-flex; align-items:center; gap:6px; }
+
+  @media (max-width:980px){
+    .blog-grid{ grid-template-columns:1fr; }
+    .blog-hero{ padding:40px 24px 8px; }
+    .blog-hero h1{ font-size:34px; }
+    .blog-card p{ font-size:17px; line-height:1.65; }
+    .blog-card h3{ font-size:23px; }
+    .blog-card .meta{ font-size:14px; }
+  }
+
+  /* ---------- columnas completas (todas en la misma página) ---------- */
+  .articles-wrap{ max-width:820px; margin:0 auto; padding:0 64px; }
+  .article-block{ border-top:1px solid var(--line); padding:64px 0; scroll-margin-top:100px; }
+  .article-block:first-of-type{ border-top:none; }
+  .article-hero{ max-width:700px; margin:0 auto; text-align:center; }
+  .article-hero .eyebrow{ justify-content:center; }
+  .article-hero h2{ font-size:38px; margin-top:18px; }
+  .article-meta-row{ margin-top:16px; font-size:14px; color:var(--label); }
+  .article-cover{ max-width:700px; margin:36px auto 0; aspect-ratio:16/9; overflow:hidden; border-radius:2px; }
+  .article-cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .article-body{ max-width:700px; margin:0 auto; padding-top:40px; }
+  .article-body p{ font-size:18px; line-height:1.85; color:var(--ink); margin-top:22px; text-align:justify; }
+  .article-body p:first-of-type{ margin-top:0; }
+  .article-body p.article-signature{ margin-top:34px; margin-bottom:20px; font-family:'Jost', sans-serif; font-style:normal; text-transform:uppercase; letter-spacing:.14em; font-size:13px; font-weight:600; color:var(--magenta); text-align:center; }
+  .article-body p.article-credit{ margin-top:12px; font-family:'Jost', sans-serif; font-size:12px; color:var(--label); text-align:center; }
+  .article-credit em{ font-style:italic; }
+  .article-credit a{ color:var(--magenta); font-weight:600; }
+  .top-link{ display:inline-flex; align-items:center; gap:8px; margin-top:40px; font-size:14px; color:var(--magenta); font-weight:600; }
+
+  @media(max-width:980px){
+    .articles-wrap{ padding:0 24px; }
+    .article-block{ padding:44px 0; }
+    .article-hero h2{ font-size:28px; }
+    .article-body p{ font-size:19px; line-height:1.75; }
+    .article-meta-row{ font-size:15px; }
+  }
+
+
+</style>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png"></head>
+<body>
+
+<header>
+  <a href="/index.html" class="logo">La Galería del <span>Ego</span></a>
+  <nav>
+    <a class="nav-link" href="/index.html#inicio">Inicio</a>
+    <a class="nav-link" href="/mentoria.html">Mentoría</a>
+    <a class="nav-link" href="/ashirion">Libro Ashirion</a>
+    <a class="nav-link" href="/index.html#sendero">Podcast</a>
+    <a class="nav-link" href="/blog.html">Blog</a>
+    <a class="nav-link" href="/ximena-burgos.html">Ximena Burgos</a>
+    <a class="btn-primary" href="https://wa.me/56962156668" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
+  </nav>
+  <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<nav class="mobile-menu" id="mobileMenu">
+  <a class="nav-link" href="/index.html#inicio">Inicio</a>
+  <a class="nav-link" href="/mentoria.html">Mentoría</a>
+  <a class="nav-link" href="/ashirion">Libro Ashirion</a>
+  <a class="nav-link" href="/index.html#sendero">Podcast</a>
+  <a class="nav-link" href="/blog.html">Blog</a>
+  <a class="nav-link" href="/ximena-burgos.html">Ximena Burgos</a>
+  <a class="btn-primary" href="https://wa.me/56962156668" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
+</nav>
+
+<main>
+
+  <section class="blog-hero" id="top">
+    <span class="eyebrow">El blog</span>
+    <h1>Ideas para <span class="script">leer tu vida</span>.</h1>
+    <p class="lede">Columnas sobre fenómenos sociales, cultura, arte y política, para entender algo mucho más profundo: cómo nos hablamos por dentro.</p>
+
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="todo">Todo</button>
+      <button class="filter-tab" data-filter="sala-polis">Sala Polis</button>
+      <button class="filter-tab" data-filter="sala-pop-art">Sala Pop Art</button>
+      <button class="filter-tab" data-filter="sala-publico">Sala Publico, luego Existo</button>
+    </div>
+  </section>
+
+  <section id="listado">
+    <div class="blog-grid">
+      <a class="blog-card" href="/blog/amor-y-trekking.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/amor-y-trekking.jpg" alt="Hombre con mochila mirando la montaña, con el texto ¿No tienes pareja?"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>Amor y trekking</h3>
+          <p>Subir cerros para sanar penas de amor: por qué la moda del trekking entre corazones rotos es, en el fondo, una forma de masoquismo ideal disfrazada de bienestar.</p>
+          <span class="meta">19 de mayo de 2025</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/gladiador-ii-ni-firmes-ni-dignos.html" target="_blank" rel="noopener" data-category="sala-pop-art">
+        <div class="cover"><img src="/imagenes/blog/gladiador-ii-ni-firmes-ni-dignos.jpg" alt="Escena de combate con gladiadores romanos"></div>
+        <div class="body">
+          <span class="cat">Sala Pop Art</span>
+          <h3>Gladiador II: Ni firmes, ni dignos</h3>
+          <p>Un cuarto de siglo después de la obra que marcó a una generación, Gladiador II resucita a Máximo solo para venderlo en una cajita feliz: por qué esta secuela traiciona su propia leyenda.</p>
+          <span class="meta">28 de noviembre de 2024</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/el-dilema-de-la-perfeccion.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/el-dilema-de-la-perfeccion.jpg" alt="Flores de cerezo rosadas en primer plano"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>El dilema de la perfección</h3>
+          <p>Como el samurái que buscaba la flor de cerezo perfecta, pasamos la vida persiguiendo una versión de nosotros que no somos: qué pasa cuando dejamos de resistir la idea de la perfección.</p>
+          <span class="meta">29 de septiembre de 2024</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/heroes-o-narcisos.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/heroes-o-narcisos.jpg" alt="Estatua de bronce de Perseo sosteniendo la cabeza de Medusa"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>Héroes o narcisos</h3>
+          <p>Entre el coaching, el mindfulness y las frases inspiradoras, seguimos evitando la única pregunta que realmente nos volvería héroes: para qué nací.</p>
+          <span class="meta">29 de abril de 2024</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/creadores-de-contenido.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/creadores-de-contenido.jpg" alt="Hombre sosteniendo un aro de luz frente a su rostro"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>Creadores de contenido</h3>
+          <p>Del influencer al "creador de valor": el nuevo disfraz con el que el narciso posmoderno intenta distinguirse de la masa, aunque siga buscando lo mismo de siempre, afuera.</p>
+          <span class="meta">24 de noviembre de 2023</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/el-posavasos-de-van-gogh.html" target="_blank" rel="noopener" data-category="sala-pop-art">
+        <div class="cover"><img src="/imagenes/blog/el-posavasos-de-van-gogh.jpg" alt="Posavasos con autorretratos de Van Gogh junto a una bebida y un pocillo de frutos secos"></div>
+        <div class="body">
+          <span class="cat">Sala Pop Art</span>
+          <h3>El posavasos de Van Gogh</h3>
+          <p>Entre exposiciones inmersivas y posavasos con "Noche Estrellada", el capitalismo artístico ha convertido a Van Gogh en mercancía: por qué eso no borra la posibilidad de una emoción genuina.</p>
+          <span class="meta">16 de agosto de 2022</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/activistas-de-sofa.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/activistas-de-sofa.jpg" alt="Ilustración de un puño de tierra sosteniendo un teléfono"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>Activistas de sofá</h3>
+          <p>Un like no es un acto de activismo, aunque se sienta como tal: la diferencia entre tomar posición y tomar postura, y por qué la convicción real se mide fuera de la pantalla.</p>
+          <span class="meta">19 de mayo de 2022</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/conflictour.html" target="_blank" rel="noopener" data-category="sala-polis">
+        <div class="cover"><img src="/imagenes/blog/conflictour.jpg" alt="Araucarias en la niebla"></div>
+        <div class="body">
+          <span class="cat">Sala Polis</span>
+          <h3>Conflictour</h3>
+          <p>Entre los "zorrones" que van al sur solo por la selfie y quienes recorren las zonas en conflicto por los ríos y la tierra mapuche: dos formas muy distintas de mirar la Naturaleza.</p>
+          <span class="meta">27 de diciembre de 2021</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/a-rey-muerto.html" target="_blank" rel="noopener" data-category="sala-polis">
+        <div class="cover"><img src="/imagenes/blog/a-rey-muerto.jpg" alt="Ilustración estilo póster político de un candidato con rayos láser en los ojos"></div>
+        <div class="body">
+          <span class="cat">Sala Polis</span>
+          <h3>A rey muerto</h3>
+          <p>Con la figura presidencial en caída libre, un discurso de "mano dura" promete devolvernos al padre que creíamos perdido: por qué el miedo a la inseguridad puede pesar más que las reformas urgentes.</p>
+          <span class="meta">2 de noviembre de 2021</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/el-ahogo-de-narciso.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/el-ahogo-de-narciso.jpg" alt="Colage en blanco y negro de rostros distorsionados y texto tipo máquina de escribir"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>El ahogo de Narciso</h3>
+          <p>Del yo "selfico" al yo "zoomico": qué pasa con el narciso posmoderno cuando el filtro desaparece y la pantalla solo devuelve la verdad doméstica.</p>
+          <span class="meta">29 de junio de 2021</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/la-nueva-up.html" target="_blank" rel="noopener" data-category="sala-polis">
+        <div class="cover"><img src="/imagenes/blog/la-nueva-up.jpg" alt="Mural callejero con un ángel renacentista montado en un perro alado"></div>
+        <div class="body">
+          <span class="cat">Sala Polis</span>
+          <h3>La nueva UP</h3>
+          <p>Tras el triunfo del Apruebo en la Convención Constitucional, un fantasma del pasado vuelve a asomar: por qué esta nueva energía colectiva no es la Unidad Popular de los setenta, sino la Utopía Posible.</p>
+          <span class="meta">24 de mayo de 2021</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/locura-viral.html" target="_blank" rel="noopener" data-category="sala-polis">
+        <div class="cover"><img src="/imagenes/blog/locura-viral.jpg" alt="Mujer rodeada de jeringas dispuestas como una corona de rayos"></div>
+        <div class="body">
+          <span class="cat">Sala Polis</span>
+          <h3>Locura viral</h3>
+          <p>Los "covidiotas" no son solo narcisos egoístas: son la válvula de escape de una sociedad entera en estado de neurosis, atrapada entre un Estado incoherente y el toque de queda del placer.</p>
+          <span class="meta">23 de marzo de 2021</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/neoprimates.html" target="_blank" rel="noopener" data-category="sala-pop-art">
+        <div class="cover"><img src="/imagenes/blog/neoprimates.jpg" alt="Tres monolitos metálicos en distintos paisajes"></div>
+        <div class="body">
+          <span class="cat">Sala Pop Art</span>
+          <h3>Neoprimates</h3>
+          <p>Los misteriosos monolitos metálicos que aparecieron en el desierto de Utah y luego por todo el mundo: por qué nos comportamos, otra vez, como los primates de "2001: Odisea en el Espacio".</p>
+          <span class="meta">20 de diciembre de 2020</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/no-convencional.html" target="_blank" rel="noopener" data-category="sala-polis">
+        <div class="cover"><img src="/imagenes/blog/no-convencional.jpg" alt="Cartel de apoyo a una candidata con un tuit de Anita Tijoux"></div>
+        <div class="body">
+          <span class="cat">Sala Polis</span>
+          <h3>No convencional</h3>
+          <p>De la fama a la Convención Constitucional: por qué la avalancha de candidaturas de rostros conocidos es, en el fondo, el tiro de gracia a la idea de una Constitución realmente popular.</p>
+          <span class="meta">1 de diciembre de 2020</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/la-era-del-dislike.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/la-era-del-dislike.jpg" alt="Ilustración pop art de un hombre disparando iconos de pulgar abajo"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>La era del dislike</h3>
+          <p>Del paradigma del like a la pandemia del dislike: qué pasa cuando Eros y el hedonismo posmoderno chocan de frente con Thánatos.</p>
+          <span class="meta">16 de septiembre de 2020</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/emprendedores-del-ocio.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/emprendedores-del-ocio.jpg" alt="Hombre sentado leyendo junto a un mural con globos de letras"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>Emprendedores del ocio</h3>
+          <p>La frase viral que culpa a quien no salió de la cuarentena "más productivo": por qué convertimos hasta el descanso en otra forma de emprendimiento del yo.</p>
+          <span class="meta">2 de mayo de 2020</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/la-asfixia-del-yo.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/la-asfixia-del-yo.jpg" alt="Silueta doble de una mujer en tonos azules"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>La asfixia del yo</h3>
+          <p>La cuarentena nos encerró con la única persona de la que veníamos huyendo hace años: nosotros mismos. Por qué la pandemia hizo del cuerpo, otra vez, un problema político.</p>
+          <span class="meta">25 de marzo de 2020</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/fuimos-feministas.html" target="_blank" rel="noopener" data-category="sala-polis">
+        <div class="cover"><img src="/imagenes/blog/fuimos-feministas.jpg" alt="Cartel We Can Do It con una mujer mostrando su brazo"></div>
+        <div class="body">
+          <span class="cat">Sala Polis</span>
+          <h3>¿Fuimos feministas?</h3>
+          <p>Del "we can do it" al ginopatriarcado: por qué imitar la lógica masculina para demostrar poder no es liberación, sino otra forma de patriarcado ejercida por mujeres.</p>
+          <span class="meta">20 de diciembre de 2019</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/joker-el-masoquista-ideal.html" target="_blank" rel="noopener" data-category="sala-pop-art">
+        <div class="cover"><img src="/imagenes/blog/joker-el-masoquista-ideal.jpg" alt="Primer plano del Joker sonriendo con maquillaje"></div>
+        <div class="body">
+          <span class="cat">Sala Pop Art</span>
+          <h3>Joker. El masoquista ideal</h3>
+          <p>La interpretación de Joaquin Phoenix como Arthur Fleck no es solo el nacimiento de un villano: es el retrato de un yo ideal que nunca se alcanza, y del masoquismo que queda en su lugar.</p>
+          <span class="meta">5 de octubre de 2019</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/museo-de-cera.html" target="_blank" rel="noopener" data-category="sala-pop-art">
+        <div class="cover"><img src="/imagenes/blog/museo-de-cera.jpg" alt="Figuras de cera de presidentes chilenos con bandas presidenciales"></div>
+        <div class="body">
+          <span class="cat">Sala Pop Art</span>
+          <h3>Museo de Cera, aberración ética</h3>
+          <p>El fallido Museo de Cera de Las Condes no es solo un papelón estético: es una muestra de cómo la política usa el arte como espectáculo barato para idiotizar a su público.</p>
+          <span class="meta">7 de agosto de 2019</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/larga-vida-al-rey.html" target="_blank" rel="noopener" data-category="sala-pop-art">
+        <div class="cover"><img src="/imagenes/blog/larga-vida-al-rey.jpg" alt="Mufasa y Simba sobre una roca al atardecer"></div>
+        <div class="body">
+          <span class="cat">Sala Pop Art</span>
+          <h3>Larga vida al Rey</h3>
+          <p>El Rey León vuelve 25 años después con un realismo que ya no necesita golpes de báculo: por qué esta versión conmueve al adulto igual que la original conmovió al niño.</p>
+          <span class="meta">19 de julio de 2019</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/la-cajita-infeliz.html" target="_blank" rel="noopener" data-category="sala-polis">
+        <div class="cover"><img src="/imagenes/blog/la-cajita-infeliz.jpg" alt="Cajitas de comida rápida de colores con el eslogan No one is happy all the time"></div>
+        <div class="body">
+          <span class="cat">Sala Polis</span>
+          <h3>La cajita infeliz</h3>
+          <p>Burger King lanzó una "cajita infeliz" para recordarnos que nadie está feliz todo el tiempo: por qué esa campaña es en el fondo un síntoma de la sociedad hedonista en la que vivimos.</p>
+          <span class="meta">28 de junio de 2019</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/nostalgia-del-maestro.html" target="_blank" rel="noopener" data-category="sala-pop-art">
+        <div class="cover"><img src="/imagenes/blog/nostalgia-del-maestro.jpg" alt="Hombre mayor hablando por micrófono"></div>
+        <div class="body">
+          <span class="cat">Sala Pop Art</span>
+          <h3>Nostalgia del Maestro</h3>
+          <p>Entre la primera foto de un agujero negro y el furor por el "profe Maza", una pregunta de fondo: por qué extrañamos tanto la figura del maestro justo cuando está desapareciendo.</p>
+          <span class="meta">16 de abril de 2019</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/un-mantra-para-camilo.html" target="_blank" rel="noopener" data-category="sala-polis">
+        <div class="cover"><img src="/imagenes/blog/un-mantra-para-camilo.jpg" alt="Retrato de Camilo"></div>
+        <div class="body">
+          <span class="cat">Sala Polis</span>
+          <h3>Un mantra para Camilo</h3>
+          <p>El boom del yoga y la espiritualidad oriental en Chile, justo cuando la policía mata al joven mapuche Camilo Catrillanca: por qué miramos tan lejos buscando raíces que tenemos al lado.</p>
+          <span class="meta">19 de noviembre de 2018</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/guru-de-la-felicidad.html" target="_blank" rel="noopener" data-category="sala-polis">
+        <div class="cover"><img src="/imagenes/blog/guru-de-la-felicidad.jpg" alt="Hombre saludando a una multitud desde un escenario"></div>
+        <div class="body">
+          <span class="cat">Sala Polis</span>
+          <h3>Gurúes de la felicidad: los emisarios del capitalismo</h3>
+          <p>La felicidad se volvió un producto que se enseña, se vende y se factura: por qué el capitalismo necesita gurúes felices tanto como consumidores insatisfechos.</p>
+          <span class="meta">8 de octubre de 2018</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/la-culpa-es-de-dioniso.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/la-culpa-es-de-dioniso.jpg" alt="Mujer comiendo un sándwich en un local de delicatessen"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>La culpa es de Dioniso</h3>
+          <p>Entre la ortorexia y el placer de comer, una nueva emoción se coló en nuestro plato: la culpa. Por qué comer sano se volvió, también, una forma de castigo.</p>
+          <span class="meta">28 de agosto de 2018</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/gladiadores-rotonda-atenas.html" target="_blank" rel="noopener" data-category="sala-polis">
+        <div class="cover"><img src="/imagenes/blog/gladiadores-rotonda-atenas.jpg" alt="Coliseo romano"></div>
+        <div class="body">
+          <span class="cat">Sala Polis</span>
+          <h3>Gladiadores en rotonda Atenas</h3>
+          <p>Un vecino compara la llegada de un proyecto de vivienda social a Las Condes con gladiadores invadiendo el barrio: la aporofobia también tiene una dimensión estética.</p>
+          <span class="meta">1 de agosto de 2018</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/trampa-narciso.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/trampa-narciso.jpg" alt="Retrato en tono sepia"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>La trampa de Narciso</h3>
+          <p>La selfie como liberación de Narciso y la venganza modernizada de Némesis: por qué el narcisismo de esta época es, en el fondo, una estrategia de supervivencia.</p>
+          <span class="meta">27 de julio de 2018</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/doctora-cordero.html" target="_blank" rel="noopener" data-category="sala-polis">
+        <div class="cover"><img src="/imagenes/blog/doctora-cordero.jpg" alt="Mujer mayor con un gato en brazos" style="object-position: center 40%;"></div>
+        <div class="body">
+          <span class="cat">Sala Polis</span>
+          <h3>María Luisa Cordero: ¿Persona non grata o Doctora Honoris Causa?</h3>
+          <p>Declarada persona non grata en Coyhaique, la psiquiatra más ácida de la televisión chilena vuelve a la polémica: por qué seguimos escuchándola.</p>
+          <span class="meta">4 de julio de 2018</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/desafio-tiempo.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/desafio-tiempo.jpg" alt="Einstein tomándose una selfie"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>El desafío al tiempo</h3>
+          <p>Registrarlo todo para no dejar de existir: por qué detrás de cada selfie hay un intento, tan antiguo como humano, de trascender al tiempo.</p>
+          <span class="meta">29 de mayo de 2018</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/extimidad.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/extimidad.jpg" alt="Mujer tomándose una selfie" style="object-position: top center;"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>Extimidad y banalidad</h3>
+          <p>Platos de comida, selfies, mascotas: por qué exhibimos hasta lo más trivial en redes sociales, y qué dice eso sobre nuestra intimidad.</p>
+          <span class="meta">5 de abril de 2018</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/it-el-terror-del-arquetipo.html" target="_blank" rel="noopener" data-category="sala-pop-art">
+        <div class="cover"><img src="/imagenes/blog/it-el-terror-del-arquetipo.jpg" alt="Primer plano de Pennywise el payaso con un globo rojo"></div>
+        <div class="body">
+          <span class="cat">Sala Pop Art</span>
+          <h3>IT. El terror del arquetipo</h3>
+          <p>En la nueva versión de IT, el verdadero villano no es el payaso: son los adultos. Por qué Pennywise es, en el fondo, el arquetipo del desamparo infantil.</p>
+          <span class="meta">11 de septiembre de 2017</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/okja.html" target="_blank" rel="noopener" data-category="sala-pop-art">
+        <div class="cover"><img src="/imagenes/blog/okja.jpg" alt="Fotograma de la película Okja"></div>
+        <div class="body">
+          <span class="cat">Sala Pop Art</span>
+          <h3>Okja. Las traducciones son sagradas</h3>
+          <p>Una cerda transgénica, una niña coreana y la industria que los separa: por qué esta fábula de Bong Joon-ho es mucho más que una historia de amor entre especies.</p>
+          <span class="meta">14 de julio de 2017</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/mercado-mistico.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/mercado-mistico.jpg" alt="Linternas de fuego en un festival en Tailandia"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>El mercado místico y la era de la incertidumbre</h3>
+          <p>Tarotistas, sanadores, cartas astrales: por qué en la época con más libertad de la historia, seguimos buscando que alguien más nos lea el futuro.</p>
+          <span class="meta">19 de junio de 2017</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/amor-catalogo.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/amor-catalogo.jpg" alt="Corazón de papel sobre un celular"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>Amor de catálogo</h3>
+          <p>Un click y un corazón verde: cómo Tinder convirtió la búsqueda de pareja en un catálogo infinito de fotos, filtros y match a la carta.</p>
+          <span class="meta">17 de mayo de 2017</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/trampas-caretas.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/trampas-caretas.jpg" alt="Máscaras de carnaval"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>Trampas y caretas 2.0</h3>
+          <p>Ser, tener y parecer: por qué en la era de las redes sociales ya no basta con ser o tener algo si no se exhibe ante los demás.</p>
+          <span class="meta">27 de abril de 2017</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/opinion-mercancia.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/opinion-mercancia.jpg" alt="Pantallas de Twitter en la bolsa de Nueva York"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>La opinión como mercancía</h3>
+          <p>Ironía, crítica y la carrera por gritar más fuerte: cómo las redes sociales transformaron nuestras ideas en un mercado bursátil de likes y visibilidad.</p>
+          <span class="meta">12 de abril de 2017</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="/blog/institucion-me-gusta.html" target="_blank" rel="noopener" data-category="sala-publico">
+        <div class="cover"><img src="/imagenes/blog/institucion-me-gusta.jpg" alt="Retrato en blanco y negro"></div>
+        <div class="body">
+          <span class="cat">Sala Publico, luego Existo</span>
+          <h3>La institución del me gusta</h3>
+          <p>El like como nueva moneda de cambio del yo: por qué la aprobación en redes sociales se volvió una institución con sus propias reglas y ansiedades.</p>
+          <span class="meta">23 de marzo de 2017</span>
+          <span class="read-more">Leer →</span>
+        </div>
+      </a>
+    </div>
+    <div class="load-more-wrap">
+      <button class="btn-outline" id="loadMoreBtn">Ver más</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <div class="logo">La Galería del <span>Ego</span></div>
+      <p>Aprende a vivir desde la calma.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <a href="/index.html#inicio">Inicio</a>
+        <a href="/mentoria.html">Mentoría</a>
+        <a href="/ashirion">Libro Ashirion</a>
+        <a href="/blog.html">Blog</a>
+        <a href="/ximena-burgos.html">Ximena Burgos</a>
+      </div>
+      <div class="footer-col">
+        <h4>Sígueme</h4>
+        <a href="#">YouTube</a>
+        <a href="#">Instagram</a>
+        <a href="#">Spotify</a>
+        <a href="mailto:ximenaburgos@lagaleriadelego.com">ximenaburgos@lagaleriadelego.com</a>
+      </div>
+    </div>
+  </div>
+  <p class="fine">© 2026 La Galería del Ego · Ximena Burgos Sánchez — Todos los derechos reservados</p>
+</footer>
+
+<a class="whatsapp-float" href="https://wa.me/56962156668" target="_blank" rel="noopener" aria-label="Escríbeme por WhatsApp">
+  <svg viewBox="0 0 32 32" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.34.653 4.527 1.786 6.393L4 29l7.86-1.748A11.93 11.93 0 0 0 16.004 27C22.63 27 28 21.627 28 15S22.63 3 16.004 3Zm0 21.8c-1.99 0-3.86-.55-5.46-1.51l-.39-.23-4.66 1.037 1.02-4.53-.25-.4A9.77 9.77 0 0 1 5.2 15c0-5.96 4.85-10.8 10.804-10.8S26.8 9.04 26.8 15 21.958 24.8 16.004 24.8Zm5.94-8.11c-.326-.163-1.93-.953-2.23-1.062-.3-.109-.518-.163-.735.163-.217.326-.845 1.062-1.036 1.28-.19.217-.38.245-.706.082-.326-.163-1.377-.508-2.622-1.618-.969-.865-1.624-1.933-1.815-2.259-.19-.326-.02-.502.143-.664.146-.146.326-.38.489-.57.163-.19.217-.326.326-.543.109-.217.054-.407-.027-.57-.082-.163-.735-1.772-1.007-2.428-.265-.638-.535-.552-.735-.562l-.626-.011c-.217 0-.57.082-.868.407-.298.326-1.136 1.11-1.136 2.71 0 1.6 1.163 3.145 1.325 3.362.163.217 2.29 3.497 5.548 4.905.776.335 1.381.535 1.853.685.778.247 1.487.212 2.047.129.624-.093 1.93-.789 2.202-1.55.272-.762.272-1.415.19-1.55-.082-.136-.298-.217-.624-.38Z"/>
+  </svg>
+</a>
+
+<script>
+  (function(){
+    var toggle = document.getElementById('menuToggle');
+    var menu = document.getElementById('mobileMenu');
+    if(!toggle || !menu) return;
+    toggle.addEventListener('click', function(){
+      var isOpen = menu.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    menu.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('click', function(){
+        menu.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>
+
+<script>
+  (function(){
+    var PAGE_SIZE = 12;
+    var tabs = document.querySelectorAll('.filter-tab');
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.blog-card'));
+    var loadMoreBtn = document.getElementById('loadMoreBtn');
+    var loadMoreWrap = loadMoreBtn ? loadMoreBtn.parentElement : null;
+    var currentFilter = 'todo';
+    var visibleCount = PAGE_SIZE;
+
+    function render(){
+      var matching = cards.filter(function(card){
+        return currentFilter === 'todo' || card.getAttribute('data-category') === currentFilter;
+      });
+      matching.forEach(function(card, i){
+        card.style.display = (i < visibleCount) ? '' : 'none';
+      });
+      cards.forEach(function(card){
+        if(matching.indexOf(card) === -1){ card.style.display = 'none'; }
+      });
+      if(loadMoreWrap){
+        loadMoreWrap.classList.toggle('is-hidden', visibleCount >= matching.length);
+      }
+    }
+
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        tabs.forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+        currentFilter = tab.getAttribute('data-filter');
+        visibleCount = PAGE_SIZE;
+        render();
+      });
+    });
+
+    if(loadMoreBtn){
+      loadMoreBtn.addEventListener('click', function(){
+        visibleCount += PAGE_SIZE;
+        render();
+      });
+    }
+
+    render();
+  })();
+</script>
+
+</body>
+</html>
