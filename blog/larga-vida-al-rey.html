@@ -370,6 +370,14 @@
   }
 
 
+
+  /* ---------- volver al blog ---------- */
+  .back-top{ max-width:700px; margin:0 auto 26px; text-align:left; }
+  .back-top a{ font-size:14px; font-weight:600; color:var(--magenta); display:inline-flex; align-items:center; gap:6px; }
+  .back-top a:hover{ text-decoration:underline; }
+  .back-bottom{ text-align:center; margin-top:40px; }
+  @media(max-width:980px){ .back-top a{ font-size:15px; } }
+  @media(hover:none){ .back-bottom .btn-primary:hover{ background:var(--magenta); transform:none; } }
 </style>
 </head>
 <body>
@@ -405,6 +413,8 @@
     <div class="articles-wrap">
 
       <article class="article-block" id="larga-vida-al-rey">
+
+        <div class="back-top"><a class="js-back" href="/blog.html">← Volver al blog</a></div>
         <div class="article-hero">
           <span class="eyebrow">Sala Pop Art</span>
           <h2>Larga vida al Rey</h2>
@@ -435,6 +445,7 @@
 
           <p class="article-signature">Ximena Burgos Sánchez.-</p>
         </div>
+        <div class="back-bottom"><a class="btn-primary js-back" href="/blog.html">← Volver al blog</a></div>
       </article>
 
     </div>
@@ -493,6 +504,20 @@
       });
     });
   })();
+</script>
+
+<script>
+  // "Volver al blog": si el lector viene del blog, regresa a la misma página/sala; si no, abre el blog.
+  document.querySelectorAll('.js-back').forEach(function(a){
+    a.addEventListener('click', function(e){
+      try{
+        var r = document.referrer ? new URL(document.referrer) : null;
+        if(r && r.origin === location.origin && /\/blog(\.html)?$/.test(r.pathname) && history.length > 1){
+          e.preventDefault(); history.back();
+        }
+      }catch(err){}
+    });
+  });
 </script>
 
 </body>
