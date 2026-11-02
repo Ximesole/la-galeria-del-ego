@@ -283,6 +283,14 @@
     .narrative p{ font-size:17px; }
     .narrative p.emph{ font-size:21px; }
   }
+  /* tamaños alineados con Inicio (escritorio y celular) */
+  body main p:not(.hero-power p):not(.emph):not(.quote-callout):not(.chile-note):not(.amazon-box p), body section p:not(.hero-power p):not(.emph):not(.quote-callout):not(.chile-note):not(.amazon-box p):not(footer p){ font-size:20px !important; line-height:1.75 !important; }
+  body .hero-power p{ font-size:26px !important; line-height:1.4 !important; }
+  body p.emph{ font-size:30px !important; line-height:1.5 !important; }
+  body p.quote-callout{ font-size:26px !important; line-height:1.5 !important; }
+  body p.chile-note, body .amazon-box p{ font-size:17px !important; line-height:1.7 !important; }
+  body .section-head h2{ font-size:42px !important; }
+  @media (max-width:980px){ body p.emph{ font-size:26px !important; } }
   /* botones: letra un poco más grande en todo el sitio */
   .btn-primary{ font-size:16px !important; }
   header .btn-primary{ font-size:15px !important; }
