@@ -389,21 +389,22 @@
   .pieza p{ font-size:20px; line-height:1.7; }
   .historia p, .historia ul:not(.acompana-nombre) li{ font-size:20px; line-height:1.75; }
   p.body-text, p.body-text.grande{ font-size:20px; line-height:1.75; }
-  .puente.destacado-grande p{ font-size:30px; line-height:1.5; }
+  .puente.destacado-grande{ background:none; border:0; padding:0; margin:48px auto; max-width:760px; }
+  .puente.destacado-grande p{ font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:500; font-size:30px; line-height:1.5; color:var(--magenta); text-align:center !important; }
   ul.incluye li, .incluye-box ul.incluye li{ font-size:20px; line-height:1.75; }
   h2.section-title{ font-size:42px; }
   details summary{ font-size:23px; }
   details p{ font-size:18px; }
   .beneficio-col ul.movimientos{ list-style:none; margin-top:26px; padding:10px 30px; border-left:3px solid var(--magenta); background:rgba(43,93,245,.06); max-width:none; }
-  .beneficio-col ul.movimientos li{ display:block; padding:16px 0; border-top:1px solid rgba(43,93,245,.15); border-bottom:none; font-family:'Cormorant Garamond', serif; font-weight:600; font-size:27px; line-height:1.6; color:var(--ink); text-align:justify; }
+  .beneficio-col ul.movimientos li{ display:block; padding:16px 0; border-top:1px solid rgba(43,93,245,.15); border-bottom:none; font-family:'Jost', sans-serif; font-weight:400; font-size:20px; line-height:1.75; color:var(--ink); text-align:justify; }
   .beneficio-col ul.movimientos li::before{ content:none; }
   .beneficio-col ul.movimientos li:first-child{ border-top:none; }
   .beneficio-col ul.movimientos li strong{ color:var(--magenta) !important; font-weight:600; }
   @media (max-width: 980px){
     .beneficio-col ul.movimientos{ padding:6px 22px; }
-    .beneficio-col ul.movimientos li{ font-size:25px; }
+    .beneficio-col ul.movimientos li{ font-size:20px; }
     .section-head h2{ font-size:38px !important; }
-    .puente.destacado-grande p{ font-size:30px !important; }
+    .puente.destacado-grande p{ font-size:26px !important; }
     .quote-center p{ font-size:26px; }
   }
 </style>
