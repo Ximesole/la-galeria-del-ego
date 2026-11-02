@@ -386,6 +386,10 @@
   /* párrafos justificados, también en celular */
   details p, .beneficio-col li > span, .historia ul:not(.acompana-nombre) li, .historia > div > p{ text-align:justify; }
   figure.photo-wide.recto img{ border-radius:0; }
+  .link-libro{ text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:4px; }
+  .link-libro:hover{ color:var(--magenta-dark); }
+  .tagline-incluye .programa{ display:block; margin-top:12px; text-transform:uppercase; letter-spacing:.06em; font-size:22px; line-height:1.4; }
+  @media (max-width:980px){ ul.incluye.realce.grande li, .incluye-box ul.incluye li{ font-size:20px !important; line-height:1.75; padding-left:18px; } .incluye-box{ padding:28px 18px !important; } .tagline-incluye .programa{ font-size:19px; } }
   /* tamaños alineados con Inicio */
   .pieza p{ font-size:20px; line-height:1.7; }
   .historia p, .historia ul:not(.acompana-nombre) li{ font-size:20px; line-height:1.75; }
@@ -562,7 +566,7 @@
       <ul class="acompana-nombre">
         <li>Ximena Burgos Sánchez</li>
       </ul>
-      <p>Escritora y maestra en comunicación interior. Autora de <em>Ashirion. El guerrero koroti</em>. Columnista (Radio Cooperativa), magíster en Comunicación (UDP), administradora pública (UChile).</p>
+      <p>Escritora y maestra en comunicación interior. Autora de <a href="/ashirion" class="link-libro"><em>Ashirion. El guerrero koroti</em></a>. Columnista (Radio Cooperativa), Magíster en Comunicación (UDP), Administradora Pública (UChile).</p>
       <div class="cta-row" style="margin-top:26px;">
         <a class="btn-primary" href="/ximena-burgos">Más sobre Ximena</a>
       </div>
@@ -589,7 +593,7 @@
 
   <section class="block incluye">
     <div class="incluye-box">
-      <p class="tagline-incluye" style="font-size:20px; color:var(--magenta); font-weight:600; margin-bottom:22px;">Mentoría 1:1, por Ximena Burgos — Escucha, edita y escribe el guion correcto de tu mente.</p>
+      <p class="tagline-incluye" style="font-size:20px; color:var(--magenta); font-weight:600; margin-bottom:22px;">Mentoría 1:1, por Ximena Burgos<span class="programa">Escucha, edita y escribe el guion correcto de tu mente</span></p>
       <span class="eyebrow" style="margin-bottom:18px; display:inline-flex;">Incluye</span>
       <ul class="incluye realce grande">
         <li>8 sesiones de una hora, cada 8 días, por videollamada (Zoom).</li>
