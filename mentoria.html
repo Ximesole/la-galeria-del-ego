@@ -385,6 +385,27 @@
   }
   /* párrafos justificados, también en celular */
   details p, .beneficio-col li > span, .historia ul:not(.acompana-nombre) li, .historia > div > p{ text-align:justify; }
+  /* tamaños alineados con Inicio */
+  .pieza p{ font-size:20px; line-height:1.7; }
+  .historia p, .historia ul:not(.acompana-nombre) li{ font-size:20px; line-height:1.75; }
+  p.body-text, p.body-text.grande{ font-size:20px; line-height:1.75; }
+  .puente.destacado-grande p{ font-size:30px; line-height:1.5; }
+  ul.incluye li, .incluye-box ul.incluye li{ font-size:20px; line-height:1.75; }
+  h2.section-title{ font-size:42px; }
+  details summary{ font-size:23px; }
+  details p{ font-size:18px; }
+  .beneficio-col ul.movimientos{ list-style:none; margin-top:26px; padding:10px 30px; border-left:3px solid var(--magenta); background:rgba(43,93,245,.06); max-width:none; }
+  .beneficio-col ul.movimientos li{ display:block; padding:16px 0; border-top:1px solid rgba(43,93,245,.15); border-bottom:none; font-family:'Cormorant Garamond', serif; font-weight:600; font-size:27px; line-height:1.6; color:var(--ink); }
+  .beneficio-col ul.movimientos li::before{ content:none; }
+  .beneficio-col ul.movimientos li:first-child{ border-top:none; }
+  .beneficio-col ul.movimientos li strong{ color:var(--magenta) !important; font-weight:600; }
+  @media (max-width: 980px){
+    .beneficio-col ul.movimientos{ padding:6px 22px; }
+    .beneficio-col ul.movimientos li{ font-size:25px; }
+    .section-head h2{ font-size:38px !important; }
+    .puente.destacado-grande p{ font-size:30px !important; }
+    .quote-center p{ font-size:26px; }
+  }
 </style>
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -458,7 +479,7 @@
   <section class="block" style="padding:20px 0 0;">
     <div class="section-head center" style="margin-bottom:0;">
       <div class="rule"></div>
-      <h2 style="font-size:30px; color:var(--magenta);">El sendero va desde el guion del Ego<span style="display:block; margin-top:14px;">hacia el guion del Espíritu.</span></h2>
+      <h2 style="font-size:38px; color:var(--magenta);">El sendero va desde el guion del Ego<span style="display:block; margin-top:14px;">hacia el guion del Espíritu.</span></h2>
     </div>
     <div class="rule" style="margin:56px auto 0;"></div>
   </section>
@@ -482,8 +503,8 @@
   <div class="beneficio-col" style="max-width:800px; margin:0 auto;">
     <span class="eyebrow">Cómo lo hacemos</span>
     <h2 style="font-size:36px; margin-top:16px;">El método</h2>
-    <p style="margin-top:18px; font-size:19px; line-height:1.75; color:var(--ink); text-align:justify;">No analizaremos el drama de tu Ego: <em style="color:var(--magenta); font-style:italic;">vamos a reescribirlo desde la raíz, en tres movimientos:</em></p>
-    <ul>
+    <p style="margin-top:18px; font-size:20px; line-height:1.75; color:var(--ink); text-align:justify;">No analizaremos el drama de tu Ego: <em style="color:var(--magenta); font-style:italic;">vamos a reescribirlo desde la raíz, en tres movimientos:</em></p>
+    <ul class="movimientos">
       <li><span><strong style="color:var(--ink);">Escuchar:</strong> reconocer la historia que te estás contando, observando tus pensamientos sin identificarte con ellos.</span></li>
       <li><span><strong style="color:var(--ink);">Editar:</strong> soltar el guion que te limita, sin pelear con él. Aquí usamos la técnica del Dejar Ir (Dr. David R. Hawkins) para liberar la carga emocional acumulada en el cuerpo y devolverle la calma a tu sistema nervioso.</span></li>
       <li><span><strong style="color:var(--ink);">Escribir:</strong> darle a tu Voz Interior las palabras que te expanden, desde la compasión y no desde la exigencia.</span></li>
@@ -560,7 +581,7 @@
 
   <section class="block incluye">
     <div class="incluye-box">
-      <p class="tagline-incluye" style="font-size:18px; color:var(--magenta); font-weight:600; margin-bottom:22px;">Mentoría 1:1, por Ximena Burgos — Escucha, edita y escribe el guion correcto de tu mente.</p>
+      <p class="tagline-incluye" style="font-size:20px; color:var(--magenta); font-weight:600; margin-bottom:22px;">Mentoría 1:1, por Ximena Burgos — Escucha, edita y escribe el guion correcto de tu mente.</p>
       <span class="eyebrow" style="margin-bottom:18px; display:inline-flex;">Incluye</span>
       <ul class="incluye realce grande">
         <li>8 sesiones de una hora, cada 8 días, por videollamada (Zoom).</li>
